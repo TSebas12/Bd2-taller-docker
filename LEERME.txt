@@ -1,0 +1,31 @@
+Taller de docker BD2
+Integrantes:
+Sebastián Agüero Brenes
+José Daniel Monterrosa Quiros
+Sebastián Rodrigo Donoso Chaves
+
+Pasos para el testeo
+Con el docker instalado
+
+1. Abrimos una terminal y nos dirigimos a la capeta de tournament-manager-api y ejecutamos estos comandos:
+
+	docker-compose build
+	docker-compose up -d
+
+Esto construye las imágenes, luego levanta y arranca los contenedores del api, el mongo y el kafka
+
+2. Ahora en la terminal nos dirigimos a la carpeta de tournament-manager-ui y ejecutamos estos comandos:
+
+	docker-compose build
+	docker-compose up -d
+
+Esto construye las imágenes, luego levanta y arranca los contenedores del Angular
+
+3. Con el Postman, importamos el archivo de Tournament.postman_collection.json, una vez importado tendremos un post
+     Create tournament que nos permite crear un torneo, una vez creado el torneo, pasamos al get Fetch tournament, este nos devuelve
+     los participantes y el torneo con su ID, el cual copiaremos el ID para ir al post Registrar donde podemos insertar participantes
+     cambiando los parámetros de tournamentId, id, name, weight y age
+
+4. Kafka
+
+

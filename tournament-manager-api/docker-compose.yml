@@ -1,0 +1,73 @@
+version: "3.9"
+
+services:
+  # API + Mongo
+  api:
+    build: .
+    container_name: tournament-designer-api
+    ports:
+      - "3000:3000"
+    networks:
+      - internal_net
+      - kafka_net
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://mongo:27017/tournament_designer
+      - KAFKA_BROKER=my-kafka:9092
+    volumes:
+      - .:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+      - my-kafka
+    command: npm run dev
+
+  mongo:
+    image: mongo:6.0
+    container_name: tournament-designer-db
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - internal_net
+    volumes:
+      - mongo_data:/data/db
+
+  # Zookeeper
+  my-zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    container_name: my-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+    networks:
+      - kafka_net
+
+  # Kafka
+  my-kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: my-kafka
+    depends_on:
+      - my-zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: my-zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://my-kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+    networks:
+      - kafka_net
+
+volumes:
+  mongo_data:
+
+networks:
+  internal_net:
+    driver: bridge
+  kafka_net:
+    driver: bridge
