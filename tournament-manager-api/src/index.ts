@@ -1,6 +1,8 @@
 import express from "express";
 import mongoose, { model, Schema } from "mongoose";
 import { Kafka } from "kafkajs";
+import { connectKafka } from './controllers/registrationController';
+import registrationRoutes from './routes/registrationRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -12,6 +14,24 @@ const kafka = new Kafka({
 });
 const producer = kafka.producer();
 (async () => { await producer.connect(); console.log("✅ Kafka Producer conectado"); })();
+
+// Crear el topic si no existe
+const admin = kafka.admin();
+(async () => {
+  await admin.connect();
+  const topics = await admin.listTopics();
+  if (!topics.includes('registrations')) {
+    await admin.createTopics({
+      topics: [{
+        topic: 'registrations',
+        numPartitions: 1,
+        replicationFactor: 1
+      }]
+    });
+    console.log("✅ Topic 'registrations' creado");
+  }
+  await admin.disconnect();
+})();
 
 app.use(express.json());
 

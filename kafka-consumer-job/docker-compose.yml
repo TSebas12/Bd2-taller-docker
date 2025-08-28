@@ -1,0 +1,13 @@
+services:
+  kafka-consumer-job:
+    build: .
+    container_name: tournament-kafka-consumer
+    networks:
+      - tournament-manager-api_kafka_net
+    environment:
+      - KAFKA_BROKER=my-kafka:9092
+    restart: unless-stopped
+
+networks:
+  tournament-manager-api_kafka_net:
+    external: true
