@@ -40,7 +40,7 @@ Crea, levanta y arranca el contenedor del Job y lo conecta al kafka
 
 Esto quedara esperando al Job que imprime cuando el kafka recibe algo
 
-5. Con el Postman, importamos el archivo de "Tournament.postman_collection.json", una vez importado tendremos un post "Create tournament" que nos permite crear un torneo, este lo ejecutamos de primero, una vez creado el torneo, pasamos al get "Fetch tournament", este lo ejetucamos y nos devuelve los participantes y el torneo con su ID, el cual copiaremos el ID para ir al post "Registrar" donde podemos  insertar participantes cambiando los parámetros de tournamentId por el que copiamos, y ademas los: id, name, weight y age del participantes.
+5. Con el Postman, importamos el archivo de "Tournament.postman_collection.json", una vez importado tendremos un post "Create tournament" que nos permite crear un torneo, este lo ejecutamos de primero, una vez creado el torneo, pasamos al get "Fetch tournament", este lo ejecutamos y nos devuelve los participantes y el torneo con su ID, copiaremos el ID para ir al post "Registrar" donde podemos insertar participantes cambiando los parámetros de tournamentId por el que copiamos, y ademas los: id, name, weight y age del participante a insertar.
 
 6. En la consola donde pusimos el "docker logs tournament-kafka-consumer -f" debería de salirnos la información de los participantes que insertemos esto gracias al Job conectado con kafka.
 
