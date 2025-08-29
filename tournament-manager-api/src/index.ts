@@ -2,7 +2,7 @@ import express from "express";
 import mongoose, { model, Schema } from "mongoose";
 import { Kafka } from "kafkajs";
 import { connectKafka } from './controllers/registrationController';
-import registrationRoutes from './routes/registrationRoutes';
+import registrationRoutes from './controllers/registrationRoutes';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -123,8 +123,8 @@ app.post('/registrar', async (req, res) => {
     } else {
       console.error("❌ Error registrando participante:", err);
       res.status(500).json({ message: "Error registrando participante", error: "Unknown error" });
-    }
-  }
+    }
+  }
 });
 
 

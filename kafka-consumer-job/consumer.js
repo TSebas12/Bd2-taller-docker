@@ -36,7 +36,7 @@ const runConsumer = async () => {
           console.log(` Torneo ID: ${registration.tournamentId}`);
           console.log(` Participante ID: ${registration.participant.id}`);
           console.log(` Nombre: ${registration.participant.name}`);
-          console.log(`  Peso: ${registration.participant.weight} kg`);
+          console.log(` Peso: ${registration.participant.weight} kg`);
           console.log(` Edad: ${registration.participant.age}`);
           console.log(` Partition: ${partition}`);
           console.log(` Topic: ${topic}`);
